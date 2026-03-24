@@ -1,0 +1,21 @@
+import java.util.*;
+
+public class Solution {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        
+        for (int i = 0; i < n; i++) {
+            int g = sc.nextInt();
+            
+            if (g >= 38) {
+                int nextMultiple = ((g / 5) + 1) * 5;
+                if (nextMultiple - g < 3) {
+                    g = nextMultiple;
+                }
+            }
+            
+            System.out.println(g);
+        }
+    }
+}
