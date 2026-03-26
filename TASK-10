@@ -1,0 +1,45 @@
+import java.util.*;
+
+public class Main {
+
+    public static int countAnagrams(String text, String pattern) {
+        int n = text.length();
+        int k = pattern.length();
+
+        if (n < k) return 0;
+
+        int[] countP = new int[26];
+        int[] countT = new int[26];
+
+        // Frequency of pattern
+        for (char c : pattern.toCharArray()) {
+            countP[c - 'a']++;
+        }
+
+        int result = 0;
+
+        for (int i = 0; i < n; i++) {
+            // Add current character to window
+            countT[text.charAt(i) - 'a']++;
+
+            // Remove character outside window
+            if (i >= k) {
+                countT[text.charAt(i - k) - 'a']--;
+            }
+
+            // Compare arrays
+            if (Arrays.equals(countP, countT)) {
+                result++;
+            }
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        String text = "forxxorfxdofr";
+        String pattern = "for";
+
+        System.out.println(countAnagrams(text, pattern));
+    }
+}
