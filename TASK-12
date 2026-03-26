@@ -1,0 +1,36 @@
+import java.util.*;
+
+public class Main {
+
+    public static String encryptString(String s) {
+        StringBuilder temp = new StringBuilder();
+
+        int n = s.length();
+        int count = 1;
+
+        for (int i = 1; i <= n; i++) {
+            if (i < n && s.charAt(i) == s.charAt(i - 1)) {
+                count++;
+            } else {
+                // append character
+                temp.append(s.charAt(i - 1));
+
+                // append hex of count
+                temp.append(Integer.toHexString(count));
+
+                count = 1;
+            }
+        }
+
+        // reverse final string
+        return temp.reverse().toString();
+    }
+
+    public static void main(String[] args) {
+        String s1 = "aaaaaaaaaaa";
+        System.out.println(encryptString(s1)); // ba
+
+        String s2 = "abc";
+        System.out.println(encryptString(s2)); // 1c1b1a
+    }
+}
