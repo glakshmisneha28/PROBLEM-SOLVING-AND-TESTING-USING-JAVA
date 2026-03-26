@@ -1,0 +1,82 @@
+Design a notification system for a web application using interface-based design to ensure extensibility.There is an interface Notification with a method:
+void sendNotification(String message);
+
+There are multiple implementations of this interface:
+EmailNotification – sends the message via email.
+SMSNotification – sends the message via SMS.
+PushNotification – sends the message as a push notification.
+
+The main program reads multiple notification requests, creates the appropriate Notification objects, and calls sendNotification() on them.
+Goal: Use an interface so that new types of notifications (like WhatsAppNotification, SlackNotification) can be added in the future without modifying existing code.
+Sample Input-1:
+4
+E Welcome_to_our_platform
+S Your_OTP_is_1234
+P New_offer_available
+E Password_changed_successfully
+
+Sample Output-1:
+Sent Email notification: Welcome_to_our_platform
+Sent SMS notification: Your_OTP_is_1234
+Sent Push notification: New_offer_available
+Sent Email notification: Password_changed_successfully
+
+
+
+ANSWER:
+
+import java.util.Scanner;
+
+interface Notification {
+    void sendNotification(String message);
+}
+
+class EmailNotification implements Notification {
+    @Override
+    public void sendNotification(String message) {
+        System.out.println("Sent Email notification: " + message);
+    }
+}
+
+class SMSNotification implements Notification {
+    @Override
+    public void sendNotification(String message) {
+        System.out.println("Sent SMS notification: " + message);
+    }
+}
+
+class PushNotification implements Notification {
+    @Override
+    public void sendNotification(String message) {
+        System.out.println("Sent Push notification: " + message);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        
+        for (int i = 0; i < n; i++) {
+            String type = sc.next();
+            String message = sc.next();
+            
+            Notification notification = getNotification(type);
+            if (notification != null) {
+                notification.sendNotification(message);
+            }
+        }
+        sc.close();
+    }
+
+    private static Notification getNotification(String type) {
+        return switch (type) {
+            case "E" -> new EmailNotification();
+            case "S" -> new SMSNotification();
+            case "P" -> new PushNotification();
+            default -> null;
+        };
+    }
+}
